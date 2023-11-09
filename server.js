@@ -17,15 +17,6 @@ app.get("/", (req, res) => {
   res.send("API WORKING SUCCESS");
 });
 
-app.get("/circulations", async (req, res) => {
-  try {
-    const circulations = await Circulations.find({});
-    res.status(200).json(circulations);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
-
 app.get("/circulations/:id", async (req, res) => {
   try {
     const { id } = req.params;
@@ -36,6 +27,38 @@ app.get("/circulations/:id", async (req, res) => {
     }
 
     res.status(200).json(circulations);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+app.get("/member/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const member = await Members.find({ _id: id });
+
+    if (member.length === 0) {
+      return res.status(404).json({ message: "No matching records found" });
+    }
+
+    res.status(200).json(member);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+app.put("/member/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const member = await Members.findByIdAndUpdate(id, req.body);
+
+    if (!member) {
+      return res
+        .status(404)
+        .json({ message: `cannot find any schedule with ID ${id}` });
+    }
+    const updatedMember = await Members.findById(id);
+    res.status(200).json(updatedMember);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
