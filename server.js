@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const Members = require("./models/memberModel");
+const Circulations = require("./models/circulationModel");
 
 const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
@@ -15,6 +16,31 @@ app.use(express.urlencoded({ extended: false }));
 app.get("/", (req, res) => {
   res.send("API WORKING SUCCESS");
 });
+
+app.get("/circulations", async (req, res) => {
+  try {
+    const circulations = await Circulations.find({});
+    res.status(200).json(circulations);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+app.get("/circulations/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const circulations = await Circulations.find({ BorrowerMemberID: id });
+
+    if (circulations.length === 0) {
+      return res.status(404).json({ message: "No matching records found" });
+    }
+
+    res.status(200).json(circulations);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 /* 
 //get user
 app.get("/user/:id", async (req, res) => {
