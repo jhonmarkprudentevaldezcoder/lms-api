@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const Members = require("./models/memberModel");
 const Circulations = require("./models/circulationModel");
 const Requests = require("./models/requestModel");
+const Penalties = require("./models/penaltyModel");
 
 const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
@@ -33,6 +34,7 @@ app.get("/circulations/:id", async (req, res) => {
   }
 });
 
+//get memeber data
 app.get("/member/:id", async (req, res) => {
   try {
     const { id } = req.params;
@@ -48,6 +50,7 @@ app.get("/member/:id", async (req, res) => {
   }
 });
 
+//get member requests
 app.get("/request/:id", async (req, res) => {
   try {
     const { id } = req.params;
@@ -63,6 +66,23 @@ app.get("/request/:id", async (req, res) => {
   }
 });
 
+//get member penalties
+app.get("/penalties/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const penalties = await Penalties.find({ MemberID: id });
+
+    if (penalties.length === 0) {
+      return res.status(404).json({ message: "No matching records found" });
+    }
+
+    res.status(200).json(penalties);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+//count request
 app.get("/request/count/:id", async (req, res) => {
   try {
     const { id } = req.params;
@@ -79,6 +99,24 @@ app.get("/request/count/:id", async (req, res) => {
   }
 });
 
+//count penalties
+app.get("/penalties/count/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const penalty = await Penalties.find({ MemberID: id });
+    const penaltiesCount = penalty.length;
+
+    if (penalty.length === 0) {
+      return res.status(404).json({ message: "No matching records found" });
+    }
+
+    res.status(200).json(penaltiesCount);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+//update member data
 app.put("/member/:id", async (req, res) => {
   try {
     const { id } = req.params;
