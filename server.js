@@ -19,10 +19,30 @@ app.get("/", (req, res) => {
   res.send("API WORKING SUCCESS");
 });
 
+// get borrowed
 app.get("/circulations/:id", async (req, res) => {
   try {
     const { id } = req.params;
     const circulations = await Circulations.find({ BorrowerMemberID: id });
+
+    if (circulations.length === 0) {
+      return res.status(404).json({ message: "No matching records found" });
+    }
+
+    res.status(200).json(circulations);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// get overdue borrowed
+app.get("/circulations/overdue/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const circulations = await Circulations.find({
+      BorrowerMemberID: id,
+      PenaltyStatus: "Overdue",
+    });
 
     if (circulations.length === 0) {
       return res.status(404).json({ message: "No matching records found" });
