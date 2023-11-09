@@ -35,7 +35,24 @@ app.get("/circulations/:id", async (req, res) => {
   }
 });
 
-// get overdue borrowed
+// get count borrowed
+app.get("/circulations/count/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const circulations = await Circulations.find({ BorrowerMemberID: id });
+    const circulationsCount = circulations.length;
+
+    if (circulations.length === 0) {
+      return res.status(404).json({ message: "No matching records found" });
+    }
+
+    res.status(200).json(circulationsCount);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// get count overdue borrowed
 app.get("/circulations/overdue/:id", async (req, res) => {
   try {
     const { id } = req.params;
