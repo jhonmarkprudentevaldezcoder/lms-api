@@ -63,6 +63,22 @@ app.get("/request/:id", async (req, res) => {
   }
 });
 
+app.get("/request/count/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const requests = await Requests.find({ MemberId: id });
+    const requestCount = requests.length;
+
+    if (requests.length === 0) {
+      return res.status(404).json({ message: "No matching records found" });
+    }
+
+    res.status(200).json(requestCount);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 app.put("/member/:id", async (req, res) => {
   try {
     const { id } = req.params;
