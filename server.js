@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const Members = require("./models/memberModel");
 const Circulations = require("./models/circulationModel");
+const Requests = require("./models/requestModel");
 
 const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
@@ -42,6 +43,21 @@ app.get("/member/:id", async (req, res) => {
     }
 
     res.status(200).json(member);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+app.get("/request/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const requests = await Requests.find({ MemberId: id });
+
+    if (requests.length === 0) {
+      return res.status(404).json({ message: "No matching records found" });
+    }
+
+    res.status(200).json(requests);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
