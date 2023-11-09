@@ -1,12 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const Patient = require("./models/patientModel");
-const Announcements = require("./models/announcemenModel");
-const Checkup = require("./models/checkupModel");
-const Rfids = require("./models/rfidModel");
-const Schedules = require("./models/scheduleModel");
-const CheckupsHistory = require("./models/checkupHistoryModel");
-const Users = require("./models/userModel");
+const Members = require("./models/memberModel");
 
 const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
@@ -21,7 +15,7 @@ app.use(express.urlencoded({ extended: false }));
 app.get("/", (req, res) => {
   res.send("API WORKING SUCCESS");
 });
-
+/* 
 //get user
 app.get("/user/:id", async (req, res) => {
   try {
@@ -130,50 +124,16 @@ app.get("/announcements/:id", async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
-
-//register
-app.post("/register", async (req, res) => {
-  const { email } = req.body;
-  const { rfid } = req.body;
-
-  try {
-    // Check if the rfid is registered
-    const existingRfid = await Rfids.findOne({ rfid: rfid });
-
-    if (existingRfid) {
-      try {
-        // Check if the email is already taken
-        const existingUser = await Users.findOne({ email });
-
-        if (existingUser) {
-          return res.status(400).json({ message: "Email already taken." });
-        }
-
-        // If the email is not taken, create the user
-        const user = await Users.create(req.body);
-        res.status(200).json(user);
-        console.log("User registered!");
-      } catch (error) {
-        console.log(error.message);
-        res.status(500).json({ message: error.message });
-      }
-    } else {
-      res.status(500).json({ message: "rfid not found" });
-    }
-  } catch (error) {
-    console.log(error.message);
-    res.status(500).json({ message: error.message });
-  }
-});
+ */
 
 //login
 
 app.post("/login", async (req, res) => {
-  const { email, password } = req.body;
+  const { Username, Password } = req.body;
 
   try {
     // Find the user by email
-    const user = await Users.findOne({ email });
+    const user = await Members.findOne({ Username });
 
     if (!user) {
       return res
@@ -182,7 +142,7 @@ app.post("/login", async (req, res) => {
     }
 
     // Compare the provided password with the stored password
-    if (user.password !== password) {
+    if (user.Password !== Password) {
       return res
         .status(401)
         .json({ message: "Authentication failed. Incorrect password." });
@@ -201,9 +161,6 @@ app.post("/login", async (req, res) => {
       message: "Authentication successful",
       token: `${token}`,
       userId: user._id,
-      name: user.name,
-      email: user.email,
-      userRfid: user.rfid,
     });
   } catch (error) {
     console.log(error.message);
@@ -214,7 +171,7 @@ app.post("/login", async (req, res) => {
 mongoose.set("strictQuery", false);
 mongoose
   .connect(
-    "mongodb+srv://shainealferez:sonseung1@capstone.rbfyljo.mongodb.net/PRMS"
+    "mongodb+srv://virusdetected848:helloworld123@cluster0.mootble.mongodb.net/LMS"
   )
   .then(() => {
     console.log("connected to MongoDB");
