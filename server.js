@@ -48,7 +48,9 @@ app.get("/circulations/overdue/:id", async (req, res) => {
       return res.status(404).json({ message: "No matching records found" });
     }
 
-    res.status(200).json(circulations);
+    const circulationsCount = circulations.length;
+
+    res.status(200).json(circulationsCount);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
