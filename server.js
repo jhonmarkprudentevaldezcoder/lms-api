@@ -291,7 +291,7 @@ app.post("/login", async (req, res) => {
 
   try {
     // Find the user by email
-    const user = await Members.findOne({ Username });
+    const user = await Members.findOne({ Username: Username });
 
     if (!user) {
       return res
