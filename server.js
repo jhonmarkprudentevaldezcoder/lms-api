@@ -67,7 +67,7 @@ app.get("/circulations/overdue/:id", async (req, res) => {
 
     const circulationsCount = circulations.length;
 
-    res.status(200).json(circulationsCount);
+    res.status(200).json({ message: circulationsCount });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -132,7 +132,7 @@ app.get("/request/count/:id", async (req, res) => {
       return res.status(404).json({ message: "No matching records found" });
     }
 
-    res.status(200).json(requestCount);
+    res.status(200).json({ message: requestCount });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -149,7 +149,7 @@ app.get("/penalties/count/:id", async (req, res) => {
       return res.status(404).json({ message: "No matching records found" });
     }
 
-    res.status(200).json(penaltiesCount);
+    res.status(200).json({ message: penaltiesCount });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
