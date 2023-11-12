@@ -46,7 +46,7 @@ app.get("/circulations/count/:id", async (req, res) => {
       return res.status(404).json({ message: "No matching records found" });
     }
 
-    res.status(200).json(circulationsCount);
+    res.status(200).json({ message: circulationsCount });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
