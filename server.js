@@ -324,6 +324,10 @@ app.post("/login", async (req, res) => {
       userIDNumber: user.IDNumber,
       userRfid: user.Rfid,
       userAccountType: user.AccountType,
+      userAge: user.Age,
+      userAddress: user.Address,
+      userContact: user.ContactNumber,
+      userRegisterDate: user.DateRegistered,
     });
   } catch (error) {
     console.log(error.message);
