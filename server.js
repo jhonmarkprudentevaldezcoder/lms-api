@@ -319,6 +319,11 @@ app.post("/login", async (req, res) => {
       message: "Authentication successful",
       token: `${token}`,
       userId: user._id,
+      userEmail: user.Email,
+      userFullname: user.Fullname,
+      userIDNumber: user.IDNumber,
+      userRfid: user.Rfid,
+      userAccountType: user.AccountType,
     });
   } catch (error) {
     console.log(error.message);
