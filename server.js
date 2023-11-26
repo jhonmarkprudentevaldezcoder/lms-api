@@ -328,6 +328,8 @@ app.post("/login", async (req, res) => {
       userAddress: user.Address,
       userContact: user.ContactNumber,
       userRegisterDate: user.DateRegistered,
+      userUsername: user.Username,
+      userPassword: user.Password,
     });
   } catch (error) {
     console.log(error.message);
