@@ -51,6 +51,22 @@ app.get("/penalty/:id", async (req, res) => {
   }
 });
 
+// get request
+app.get("/request/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const request = await Requests.find({ MemberID: id });
+
+    if (request.length === 0) {
+      return res.status(404).json({ message: "No matching records found" });
+    }
+
+    res.status(200).json(request);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 // get count borrowed
 app.get("/circulations/count/:id", async (req, res) => {
   try {
