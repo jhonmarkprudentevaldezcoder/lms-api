@@ -20,6 +20,27 @@ app.get("/", (req, res) => {
 });
 
 // get borrowed
+app.get("/circulations/:id/borrowed", async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Use the condition to filter by BorrowerMemberID and CirculationStatus
+    const circulations = await Circulations.find({
+      BorrowerMemberID: id,
+      CirculationStatus: "borrowed",
+    });
+
+    if (circulations.length === 0) {
+      return res.status(404).json({ message: "No matching records found" });
+    }
+
+    res.status(200).json(circulations);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// get borrowed
 app.get("/circulations/:id", async (req, res) => {
   try {
     const { id } = req.params;
