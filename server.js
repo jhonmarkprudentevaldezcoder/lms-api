@@ -330,6 +330,7 @@ app.post("/login", async (req, res) => {
       userRegisterDate: user.DateRegistered,
       userUsername: user.Username,
       userPassword: user.Password,
+      userBirthday: user.Birthday,
     });
   } catch (error) {
     console.log(error.message);
