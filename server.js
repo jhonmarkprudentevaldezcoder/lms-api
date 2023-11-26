@@ -39,7 +39,7 @@ app.get("/circulations/:id", async (req, res) => {
 app.get("/penalty/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const penalties = await Penalties.find({ BorrowerMemberID: id });
+    const penalties = await Penalties.find({ MemberID: id });
 
     if (penalties.length === 0) {
       return res.status(404).json({ message: "No matching records found" });
