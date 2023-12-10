@@ -73,7 +73,7 @@ app.get("/penalty/:id", async (req, res) => {
 });
 
 // get request
-app.get("/request/:id", async (req, res) => {
+/* app.get("/request/:id", async (req, res) => {
   try {
     const { id } = req.params;
     const request = await Requests.find({ MemberID: id });
@@ -83,6 +83,23 @@ app.get("/request/:id", async (req, res) => {
     }
 
     res.status(200).json(request);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+ */
+
+//get member requests
+app.get("/request/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const requests = await Requests.find({ MemberId: id });
+
+    if (requests.length === 0) {
+      return res.status(404).json({ message: "No matching records found" });
+    }
+
+    res.status(200).json(requests);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -137,22 +154,6 @@ app.get("/member/:id", async (req, res) => {
     }
 
     res.status(200).json(member);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
-
-//get member requests
-app.get("/request/:id", async (req, res) => {
-  try {
-    const { id } = req.params;
-    const requests = await Requests.find({ MemberId: id });
-
-    if (requests.length === 0) {
-      return res.status(404).json({ message: "No matching records found" });
-    }
-
-    res.status(200).json(requests);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
