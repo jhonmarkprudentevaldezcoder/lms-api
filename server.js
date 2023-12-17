@@ -44,7 +44,7 @@ app.get("/circulations/:id/borrowed", async (req, res) => {
 app.get("/circulations/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const circulations = await Circulations.find({ BorrowerMemberID: id });
+    const circulations = await Circulations.find({ BorrowerMemberID: id , CirculationStatus: "Borrowed",});
 
     if (circulations.length === 0) {
       return res.status(404).json({ message: "No matching records found" });
