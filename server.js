@@ -27,7 +27,7 @@ app.get("/circulations/:id/borrowed", async (req, res) => {
     // Use the condition to filter by BorrowerMemberID and CirculationStatus
     const circulations = await Circulations.find({
       BorrowerMemberID: id,
-      CirculationStatus: "borrowed",
+      CirculationStatus: "Borrowed",
     });
 
     if (circulations.length === 0) {
