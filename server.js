@@ -109,7 +109,7 @@ app.get("/request/:id", async (req, res) => {
 app.get("/circulations/count/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const circulations = await Circulations.find({ BorrowerMemberID: id, CirculationStatus: "borrowed" });
+    const circulations = await Circulations.find({ BorrowerMemberID: id, CirculationStatus: "Borrowed" });
     const circulationsCount = circulations.length;
 
     if (circulations.length === 0) {
